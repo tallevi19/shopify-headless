@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { StaticQuery, graphql } from 'gatsby'
+import { StaticQuery, graphql,  useStaticQuery, Link } from 'gatsby'
 import styled from '@emotion/styled'
 
 import ContextProvider from '~/provider/ContextProvider'
@@ -15,33 +15,57 @@ const Wrapper = styled.div`
 `
 
 const Layout = ({ children }) => {
+  const data = useStaticQuery(
+    graphql`
+    {
+      allShopifyPage {
+        nodes {
+          title
+          handle
+        }
+      }
+  
+ 
+          site {
+            siteMetadata {
+              title
+            }
+          }
+        
+      }
+
+   `)
+  
   return (
     <ContextProvider>
       <GlobalStyle />
-      <StaticQuery
-        query={graphql`
-          query SiteTitleQuery {
-            site {
-              siteMetadata {
-                title
-              }
-            }
-          }
-        `}
-        render={data => (
+   
           <>
             <Navigation siteTitle={data.site.siteMetadata.title} />
             <Wrapper>
               {children}
+
+
               <footer>
-                © {new Date().getFullYear()}, Built with
+             
+
+<ul>
+                {data.allShopifyPage.nodes.map(({  title, handle }) => (
+          
+          <li><Link to={`/page/${handle}/`}>
+           {title}
+            </Link></li>
+          
+        ))}</ul>
+
+© {new Date().getFullYear()}, Built with
                 {` `}
                 <a href="https://www.gatsbyjs.org">Gatsby</a>
               </footer>
             </Wrapper>
           </>
-        )}
-      />
+    
+    
     </ContextProvider>
   )
 }
