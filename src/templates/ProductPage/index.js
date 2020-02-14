@@ -42,7 +42,10 @@ console.log(collection)
             <ProductForm product={product} />
           </GridRight>
         </TwoColumnGrid>
-            <Link to={`/collection/${collection.handle}`}>{collection.title}</Link>
+        {collection && 
+                    <Link to={`/collection/${collection.handle}`}>{collection.title}</Link>
+
+        }
       </Container>
     </>
   )
