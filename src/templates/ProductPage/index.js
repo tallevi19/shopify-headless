@@ -1,5 +1,5 @@
 import React from 'react'
-import { graphql } from 'gatsby'
+import { graphql , useStaticQuery, Link} from 'gatsby'
 
 import SEO from '~/components/seo'
 import ProductForm from '~/components/ProductForm'
@@ -17,6 +17,9 @@ import {
 
 const ProductPage = ({ data }) => {
   const product = data.shopifyProduct
+const collection = data.shopifyCollection
+console.log(collection)
+  
   return (
     <>
       <SEO title={product.title} description={product.description} />
@@ -39,13 +42,14 @@ const ProductPage = ({ data }) => {
             <ProductForm product={product} />
           </GridRight>
         </TwoColumnGrid>
+            <Link to={`/collection/${collection.handle}`}>{collection.title}</Link>
       </Container>
     </>
   )
 }
 
 export const query = graphql`
-  query($handle: String!) {
+  query($handle: String! $shopifyId: String) {
     shopifyProduct(handle: { eq: $handle }) {
       id
       title
@@ -91,6 +95,11 @@ export const query = graphql`
           }
         }
       }
+    }
+
+    shopifyCollection(products: {elemMatch: {shopifyId: {eq: $shopifyId}}}) {
+      title
+      handle
     }
   }
 `
