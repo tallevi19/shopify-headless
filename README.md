@@ -27,6 +27,7 @@ If you have questions feel free to message me on [Twitter](https://twitter.com/i
 - SEO
 - Collection Page
 - Shopify Pages
+- Trigger Deploy when product is created, updated or deleted automatically
 
 
 ### 📦 Dynamic Inventory Checking
